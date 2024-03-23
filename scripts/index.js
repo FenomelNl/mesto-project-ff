@@ -11,7 +11,7 @@ function createCard(card, deleteCard) {
 
     const deleteButton = newCard.querySelector('.card__delete-button');
     deleteButton.addEventListener('click', deleteCard);
-    
+
     return newCard;
 }
 
@@ -21,6 +21,6 @@ function deleteCard() {
 }
 
 initialCards.forEach((card) => {
-  const item = createCard(card, deleteCard);
-  placesList.appendChild(item);  
+    const item = createCard(card, deleteCard);
+    placesList.appendChild(item);
 });
