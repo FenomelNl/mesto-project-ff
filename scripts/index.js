@@ -15,8 +15,8 @@ function createCard(card, deleteCard) {
     return newCard;
 }
 
-function deleteCard() {
-    const card = placesList.querySelector('.card');
+function deleteCard(evt) {
+    const card = evt.target.closest('.card');
     card.remove();
 }
 
