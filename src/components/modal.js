@@ -1,43 +1,63 @@
-/* модальное окно редактирования профиля */
-export const profileEditButton = document.querySelector('.profile__edit-button');
-profileEditButton.addEventListener('click', function () {
-    const name = document.querySelector('.popup__input_type_name');
-    const description = document.querySelector('.popup__input_type_description');
-    const popup = document.querySelector('.popup_type_edit');
-    name.value = document.querySelector('.profile__title').textContent;
-    description.value = document.querySelector('.profile__description').textContent;
-    popup.classList.add('popup_is-opened');
-});
+document.addEventListener('click', openPopup);
+document.addEventListener('click', closePopup);
 
-/* модальное окно добавления картинки */
-export const profileAddButton = document.querySelector('.profile__add-button');
-profileAddButton.addEventListener('click', function () {
-    const popup = document.querySelector('.popup_type_new-card');
-    popup.classList.add('popup_is-opened');
-});
+const popupTypeEdit = document.querySelector('.popup_type_edit');
+const popupTypeNewcard = document.querySelector('.popup_type_new-card');
+const popupTypeImage = document.querySelector('.popup_type_image');
+const name = document.querySelector('.popup__input_type_name');
+const description = document.querySelector('.popup__input_type_description');
+const profileTitle = document.querySelector('.profile__title');
+const profileDescription = document.querySelector('.profile__description');
 
-/* закрытие модального окна крестиком */
-export const popupClose = document.querySelectorAll('.popup__close');
-popupClose.forEach(function (evt) {
-    evt.addEventListener('click', function (evt) {
-        const closestPopup = evt.target.closest('.popup');
-        closestPopup.classList.remove('popup_is-opened');
-    });
-});
+export function openPopup(evt) {
+    if (evt.target.classList.contains('profile__edit-button')) {
+        name.value = profileTitle.textContent;
+        description.value = profileDescription.textContent;
+        popupTypeEdit.classList.add('popup_is-opened');
+        addEvents();
+    }
+    if (evt.target.classList.contains('profile__add-button')) {
+        popupTypeNewcard.classList.add('popup_is-opened');
+        addEvents();
+    }
+    if (evt.target.classList.contains('card__image')) {
+        popupTypeImage.classList.add('popup_is-opened');
+        addEvents();
+    }
+}
 
-/* закрытие модального окна нажатие на фон */
-document.addEventListener('click', function (evt) {
+function addEvents() {
+    document.addEventListener('click', clickByOverlay);
+    document.addEventListener('keydown', closePopupByEsc);
+}
+
+export function closePopup(evt) {
+    if (evt.target.classList.contains('popup__close')) {
+        evt.target.closest('.popup_is-opened').classList.remove('popup_is-opened');
+        removeEvents();
+    }
+}
+
+function clickByOverlay(evt) {
     if (evt.target.classList.contains('popup_is-opened') && !evt.target.classList.contains('popup__content')) {
-        const close = document.querySelector('.popup_is-opened');
-        close.classList.remove('popup_is-opened');
+        document.querySelector('.popup_is-opened').classList.remove('popup_is-opened');
+        removeEvents();
     }
-});
+}
 
-/* закрытие модального окна нажатием на Esc */
-document.addEventListener('keydown', function (evt) {
+function closePopupByEsc(evt) {
     if (evt.keyCode == 27) {
-        const popup = document.querySelector('.popup_is-opened');
-        popup.classList.remove('popup_is-opened');
+        document.querySelector('.popup_is-opened').classList.remove('popup_is-opened');
+        removeEvents();
     }
-});
+}
+
+export function closeForms() {
+    document.querySelector('.popup_is-opened').classList.remove('popup_is-opened');
+}
+
+function removeEvents() {
+    document.removeEventListener('click', clickByOverlay);
+    document.removeEventListener('keydown', closePopupByEsc);
+}
 
