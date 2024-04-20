@@ -1,7 +1,7 @@
 import './pages/index.css';
 import { initialCards } from './components/cards.js';
 import { createCard, deleteCard, likeCard } from './components/card.js';
-import { openPopup, closePopup, closeForms } from './components/modal.js';
+import { openPopup, closePopup } from './components/modal.js';
 
 import addIcon from './images/add-icon.svg';
 import avatar from './images/avatar.jpg';
@@ -34,7 +34,7 @@ export function formSubmit(evt) {
   }
   placesList.prepend(createCard(item, deleteCard, likeCard, openImage));
   newPlace.reset();
-  closeForms(newPlace);
+  closePopup(newCard);
 }
 
 /* редактирование профиля */
@@ -48,14 +48,16 @@ export function handleFormSubmit(evt) {
   evt.preventDefault();
   title.textContent = inputName.value;
   description.textContent = inputDescription.value;
-  closeForms(editProfile);
+  closePopup(editProfile);
 }
 
 /* окно картинок */
 const popupImage = document.querySelector('.popup__image');
 const popupCaption = document.querySelector('.popup__caption');
+const popupTypeImage = document.querySelector('.popup_type_image');
 function openImage(evt) {
   popupImage.src = evt.target.src;
   popupImage.alt = evt.target.alt;
   popupCaption.textContent = evt.target.alt;
+  openPopup(popupTypeImage);
 };
